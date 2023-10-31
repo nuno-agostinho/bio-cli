@@ -1,0 +1,2 @@
+#!/bin/sh
+perl ${ENSEMBL_ROOT_DIR}/ensembl-variation/scripts/misc/generate_reg_file.pl ${@}

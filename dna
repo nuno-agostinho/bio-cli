@@ -1,0 +1,19 @@
+#!/bin/sh
+chr=${1:?first argument must be chromsome}
+start=${2:?second argument must be start position}
+end=${3:-$start}
+species=${5:-human}
+
+if [[ start -gt end ]]; then
+  strand=${4:--1}
+  region="$chr:$end-$start:$strand"
+else
+  strand=${4:-1}
+  region="$chr:$start-$end:$strand"
+fi
+
+[[ $strand = -1 ]] && strand_str="negative strand" || strand_str="positive strand"
+
+echo "> $region ($strand_str)"
+url="http://rest.ensembl.org/sequence/region/${species}/${region}?mask_feature=1&content-type=text/plain"
+curl -sS -w "\n" $url | ack --passthru ATG

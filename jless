@@ -1,0 +1,2 @@
+#!/bin/sh
+singularity run ${ENSEMBL_ROOT_DIR}/jless/jless.sif ${@}
