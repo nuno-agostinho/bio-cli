@@ -1,0 +1,8 @@
+#!/bin/sh
+id=${1:?first argument must be Ensembl identifier}
+start=${2:-0}
+end=${3:-$start}
+
+echo "> $id ($start-$end)"
+url="http://rest.ensembl.org/sequence/id/${id}?start=${start}&end=${end}&content-type=text/plain"
+curl -sS -w "\n" $url

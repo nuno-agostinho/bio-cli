@@ -1,5 +1,5 @@
 #!/bin/sh
-chr=${1:?first argument must be chromsome}
+chr=${1:?first argument must be chromosome}
 start=${2:?second argument must be start position}
 end=${3:-$start}
 species=${5:-human}
