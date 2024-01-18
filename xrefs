@@ -1,0 +1,9 @@
+#!/bin/sh
+id=${1:?Missing identifier}
+species=${2:-homo_sapiens}
+
+for i in name symbol; do
+  url="http://rest.ensembl.org/xrefs/$i/$species/$id?content-type=application/json"
+  out=$(curl -sS -w "\n" $url)
+  echo $out | jq -S
+done
