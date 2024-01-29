@@ -2,8 +2,16 @@
 id=${1:?Missing identifier}
 species=${2:-homo_sapiens}
 
-for i in name symbol; do
-  url="http://rest.ensembl.org/xrefs/$i/$species/$id?content-type=application/json"
+if [[ ${id:0:3} == "ENS" ]] ; then
+  # internal ID: return external synonyms
+  url="http://rest.ensembl.org/xrefs/id/$id?content-type=application/json"
   out=$(curl -sS -w "\n" $url)
   echo $out | jq -S
-done
+else
+  # external ID: return available information and internal ID matches
+  for i in name symbol; do
+    url="http://rest.ensembl.org/xrefs/$i/$species/$id?content-type=application/json"
+    out=$(curl -sS -w "\n" $url)
+    echo $out | jq -S
+  done
+fi
