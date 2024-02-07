@@ -1,0 +1,6 @@
+#!/bin/sh
+id=${1:?first argument needs to be a variant ID}
+species=${2:-human}
+url="http://rest.ensembl.org/variation/$species/$id?content-type=application/json"
+out=$(curl -sS -w "\n" $url)
+echo $out | jq -S
