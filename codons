@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+declare -A codons
+codons=(
+    ['AAA']='Lys/K'
+    ['AAC']='Asn/N'
+    ['AAG']='Lys/K'
+    ['AAT']='Asn/N'
+    ['ACA']='Thr/T'
+    ['ACC']='Thr/T'
+    ['ACG']='Thr/T'
+    ['ACT']='Thr/T'
+    ['AGA']='Arg/R'
+    ['AGC']='Ser/S'
+    ['AGG']='Arg/R'
+    ['AGT']='Ser/S'
+    ['ATA']='Ile/I'
+    ['ATC']='Ile/I'
+    ['ATG']='Met/M'
+    ['ATT']='Ile/I'
+    ['CAA']='Gln/Q'
+    ['CAC']='His/H'
+    ['CAG']='Gln/Q'
+    ['CAT']='His/H'
+    ['CCA']='Pro/P'
+    ['CCC']='Pro/P'
+    ['CCG']='Pro/P'
+    ['CCT']='Pro/P'
+    ['CGA']='Arg/R'
+    ['CGC']='Arg/R'
+    ['CGG']='Arg/R'
+    ['CGT']='Arg/R'
+    ['CTA']='Leu/L'
+    ['CTC']='Leu/L'
+    ['CTG']='Leu/L'
+    ['CTT']='Leu/L'
+    ['GAA']='Glu/E'
+    ['GAC']='Asp/D'
+    ['GAG']='Glu/E'
+    ['GAT']='Asp/D'
+    ['GCA']='Ala/A'
+    ['GCC']='Ala/A'
+    ['GCG']='Ala/A'
+    ['GCT']='Ala/A'
+    ['GGA']='Gly/G'
+    ['GGC']='Gly/G'
+    ['GGG']='Gly/G'
+    ['GGT']='Gly/G'
+    ['GTA']='Val/V'
+    ['GTC']='Val/V'
+    ['GTG']='Val/V'
+    ['GTT']='Val/V'
+    ['TAA']='    *'
+    ['TAC']='Tyr/Y'
+    ['TAG']='    *'
+    ['TAT']='Tyr/Y'
+    ['TCA']='Ser/S'
+    ['TCC']='Ser/S'
+    ['TCG']='Ser/S'
+    ['TCT']='Ser/S'
+    ['TGA']='    *'
+    ['TGC']='Cys/C'
+    ['TGG']='Trp/W'
+    ['TGT']='Cys/C'
+    ['TTA']='Leu/L'
+    ['TTC']='Phe/F'
+    ['TTG']='Leu/L'
+    ['TTT']='Phe/F'
+)
+
+start_codon="ATG.*?(?=\t|$)"
+stop_codons='(TAA|TAG|TGA).*?(?=\t|$)'
+
+if [ -z "$1" ]; then
+    for i in "${!codons[@]}"; do
+        echo "$i -> ${codons[$i]}"
+    done | sort
+else
+    for codon in $(echo $1 | fold -w3); do
+        echo "$codon -> ${codons[$codon]}"
+    done
+fi | column | \
+  ack --passthru $start_codon --color-match='black on_green' --color | \
+  ack --passthru $stop_codons --color-match='black on_red' --color
+
