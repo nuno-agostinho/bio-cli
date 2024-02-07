@@ -16,4 +16,9 @@ fi
 
 echo "> $region ($strand_str)"
 url="http://rest.ensembl.org/sequence/region/${species}/${region}?mask_feature=1&content-type=text/plain"
-curl -sS -w "\n" $url | ack --passthru ATG
+
+start_codon=ATG
+stop_codons='TAA|TAG|TGA'
+curl -sS -w "\n" $url |\
+  ack --passthru $start_codon --color-match='black on_green' --color | \
+  ack --passthru $stop_codons --color-match='black on_red' --color
