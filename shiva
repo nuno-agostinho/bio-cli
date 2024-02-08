@@ -1,0 +1,26 @@
+#!/bin/sh
+
+folder=${1:?Shiva calmly instructs that the initial argument must be a folder you no longer wish to be.}
+
+if [ ! -d $folder ]; then
+  echo "Shiva declares you a trickster, for the folder $folder does not exist."
+  exit
+fi
+
+echo "Do you contemplate the deletion of all the contents within $folder?"
+echo "Shiva's actions, once undertaken, cannot be reversed."
+echo
+
+folder=$(realpath $folder)
+
+select yn in "Destroy $folder" "Cowardly step away, mortal"; do
+    case $yn in
+        "Destroy $folder" )
+          echo
+          echo "Execute the following command and behold as the cosmic dances transforms the world into crumbles:"
+          echo "  for i in $folder/*; do bsub -o /dev/null rm -rf \$i; done"
+          echo
+          break;;
+        * ) exit;;
+    esac
+done
