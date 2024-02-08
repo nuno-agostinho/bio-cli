@@ -2,7 +2,9 @@
 id=${1:?first argument must be Ensembl identifier}
 start=${2:-0}
 end=${3:-$start}
+type=${4:-genomic}
+mask_feature=${5:-0}
 
 echo "> $id ($start-$end)"
-url="http://rest.ensembl.org/sequence/id/${id}?start=${start}&end=${end}&content-type=text/plain"
+url="http://rest.ensembl.org/sequence/id/${id}?start=${start}&end=${end}&mask_feature=${mask_feature}&type=${type}&content-type=text/plain"
 curl -sS -w "\n" $url
