@@ -77,7 +77,7 @@ if [ -z "$1" ]; then
     done | sort
 else
     for codon in $(echo $1 | fold -w3); do
-        echo "$codon -> ${codons[$codon]}"
+        echo "$codon -> ${codons[${codon^^}]}"
     done
 fi | column | \
   ack --passthru $start_codon --color-match='black on_green' --color | \
